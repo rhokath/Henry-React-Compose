@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './App.module.scss';
 
 const App = () => {
   return (
     <main>
       Make some toggles happen
+      <ToggleClass/>
     </main>
   );
 }
 //undefined meaning its not receiving props, the type is an object with boolean
-class ToggleClass extends React.Component<undefined, { isOpen: boolean }> {
+class ToggleClass extends React.Component<{}, { isOpen: boolean }> {
   state = {
     isOpen: true,
   };
@@ -27,8 +28,14 @@ class ToggleClass extends React.Component<undefined, { isOpen: boolean }> {
 }
 
 const ToggleFunction = () => {
+  const [isOpen, setIsOpen] = useState(true)
+  const toggle = () => {
+    setIsOpen(isOpen => !isOpen)
+  }
   return (
-    <></>
+    <button onClick={toggle}>
+      {isOpen ? 'open': 'close'}
+    </button>
   );
 };
 
