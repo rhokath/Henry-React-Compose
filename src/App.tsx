@@ -8,12 +8,20 @@ const App = () => {
     </main>
   );
 }
-
-class ToggleClass extends React.Component {
-  state = {};
+//undefined meaning its not receiving props, the type is an object with boolean
+class ToggleClass extends React.Component<undefined, { isOpen: boolean }> {
+  state = {
+    isOpen: true,
+  };
+  //method that takes in state a returns object with opp value
+  toggle = () => {
+    this.setState(state => ({...state, isOpen: !state.isOpen}))
+  }
   render() {
     return (
-      <></>
+      <button onClick={this.toggle}>
+        {this.state.isOpen ? 'open': 'close'}
+      </button>
     )
   }
 }
