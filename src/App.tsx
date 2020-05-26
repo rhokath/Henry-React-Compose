@@ -20,6 +20,36 @@ const App = () => {
     </main>
   );
 }
+const ToggleFunction = () => {
+  const [isOpen, setIsOpen] = useState(true)
+  const toggle = () => {
+    setIsOpen(isOpen => !isOpen)
+  }
+  return (
+    <button onClick={toggle}>
+      {isOpen ? 'open': 'close'}
+    </button>
+  );
+};
+const useToggle = () => {
+  const [isOpen, setIsOpen] = useState(true)
+  const toggle = ()=> {
+    setIsOpen(isOpen => !isOpen)
+  }
+  //so typescript will now to treat these as a pair
+  return [isOpen, toggle] as const
+}
+const Checkbock = () => {
+  const [isOpen, toggle] = useToggle()
+  return(
+    <input
+    type="checkbox"
+    checked={isOpen}
+    onClick={toggle}
+    />
+  )
+}
+
 //render props
 //makes it easy to get additional data vs more rigidity for HOC
 //render is a function that returns JSX
@@ -53,17 +83,7 @@ class ToggleClass extends React.Component<{}, { isOpen: boolean }> {
   }
 }
 
-const ToggleFunction = () => {
-  const [isOpen, setIsOpen] = useState(true)
-  const toggle = () => {
-    setIsOpen(isOpen => !isOpen)
-  }
-  return (
-    <button onClick={toggle}>
-      {isOpen ? 'open': 'close'}
-    </button>
-  );
-};
+
 
 //HOC the 'with' is a naming convention
 type ToggleProps = { isOpen: boolean, toggle: () => void}
