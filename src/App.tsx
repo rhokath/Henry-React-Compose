@@ -21,7 +21,12 @@ const App = () => {
   );
 }
 //render props
+//makes it easy to get additional data vs more rigidity for HOC
 //render is a function that returns JSX
+//can't memomize or use hooks directly inside it
+//therefore perfomance issues because have to call each time
+//but good way to quickly get data to compose with existing logic
+//another way to do it is instead of render you could say children 
 const ToggleRender = ({render}: {render: (props: ToggleProps)=>JSX.Element})=>{
   const [isOpen, setIsOpen] = useState(true)
   const toggle = () => {
