@@ -6,10 +6,22 @@ const App = () => {
     <main>
       Make some toggles happen
       <ToggleClass/>
+      <ToggleFunction/>
     </main>
   );
 }
-//undefined meaning its not receiving props, the type is an object with boolean
+//HOC the 'with' is a naming convention
+type ToggleProps = { isOpen: boolean, toggle: () => void}
+const withToggle = (Component: React.ComponentType<ToggleProps>){
+  const [isOpen, setIsOpen] = useState(true)
+  const toggle = () => {
+    setIsOpen(isOpen => !isOpen)
+  }
+  return (
+    <Component toggle={toggle} isOpen={isOpen} />
+  )
+
+}
 class ToggleClass extends React.Component<{}, { isOpen: boolean }> {
   state = {
     isOpen: true,
