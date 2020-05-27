@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import styles from './App.module.scss';
-
+//algorithm react uses to compare changes in DOM is O(n^3)!!
 const App = () => {
   const variable = 'test'
   return (
@@ -39,6 +39,13 @@ const App = () => {
 const ToggleContext = React.createContext<ToggleProps | null>(null)
 const ToggleProvider: React.FC = ({children}) => {
   const [isOpen, toggle] = useToggle()
+  //memoize when have pure function with same inputs and outputs
+  //if inputs haven't changed don't need to recalculate
+  //const value = useMemo(()=> {
+   // return {isOpen, toggle} 
+  //}, [isOpen, toggle])
+  //useCallback is same as useMemo but recognizes the function is the thign you want to memoize
+  //split context like for ecommerce site a cart context, add items to cart could be it's ow context
   return(
     <ToggleContext.Provider value={{isOpen, toggle}}>
       {children}
