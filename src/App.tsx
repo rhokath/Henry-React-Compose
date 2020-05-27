@@ -20,6 +20,9 @@ const App = () => {
       <Checkbox/>
       <ToggleProvider>
         <ToggleFunctionConsumer/>
+        <ToggleIsOpen>
+          We are open
+        </ToggleIsOpen>
 
       </ToggleProvider>
     </main>
@@ -58,6 +61,14 @@ const ToggleFunctionConsumer = ()=>{
     </button>
   )
 
+}
+//interesting interface with context
+const ToggleIsOpen: React.FC = ({children})=> {
+  const {isOpen} = useToggleContext();
+  if(isOpen){
+  return <>{children}</>
+  }
+  return null;
 }
 const ToggleFunction = () => {
   const [isOpen, setIsOpen] = useState(true)
