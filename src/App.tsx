@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import styles from './App.module.scss';
 
 const App = () => {
@@ -17,8 +17,47 @@ const App = () => {
          </div>
        )}
       />
+      <Checkbox/>
+      <ToggleProvider>
+        <ToggleFunctionConsumer/>
+
+      </ToggleProvider>
     </main>
   );
+}
+//context pass data to components through component hierarchy
+//allows eliminate need for render props, often state management
+//context provider/consumer consumer uses render props
+//instead of render props use hooks
+//type outsdie of provider generally null
+//compose stateful logic like if with HOC also free in way we choose to render stateful like we do with render props
+//can wrap in divs with color, make use of context in whatever way we so choose
+//make interesting interfaces
+const ToggleContext = React.createContext<ToggleProps | null>(null)
+const ToggleProvider: React.FC = ({children}) => {
+  const [isOpen, toggle] = useToggle()
+  return(
+    <ToggleContext.Provider value={{isOpen, toggle}}>
+      {children}
+
+    </ToggleContext.Provider>
+  )
+}
+const useToggleContext = () => {
+  const value = useContext(ToggleContext)
+  if(value === null){
+    throw new Error('useToggleContext must be used in ToggleProvider')
+  }
+  return value;
+}
+const ToggleFunctionConsumer = ()=>{
+  const { isOpen, toggle} = useToggleContext()
+  return(
+    <button onClick={toggle}>
+      {isOpen ? 'open': 'close'}
+    </button>
+  )
+
 }
 const ToggleFunction = () => {
   const [isOpen, setIsOpen] = useState(true)
@@ -39,13 +78,14 @@ const useToggle = () => {
   //so typescript will now to treat these as a pair
   return [isOpen, toggle] as const
 }
-const Checkbock = () => {
+const Checkbox = () => {
   const [isOpen, toggle] = useToggle()
   return(
     <input
     type="checkbox"
     checked={isOpen}
     onClick={toggle}
+    readOnly
     />
   )
 }
